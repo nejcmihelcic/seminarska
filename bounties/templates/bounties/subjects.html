@@ -1,0 +1,15 @@
+{% extends 'bounties/base.html'  %}
+
+{% block content %}
+
+<p>Subjects:</p>
+
+<ul>
+    {% for subject in subjects %}
+      <li><a href="{% url 'bounties:subject' subject.id %}">{{ subject.name }}</a></li>
+    {% empty %}
+      <li>No subjects have been added yet.</li>
+    {% endfor %}
+</ul>
+
+{% endblock content %}
