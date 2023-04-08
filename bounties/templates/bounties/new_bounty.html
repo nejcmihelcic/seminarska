@@ -1,0 +1,15 @@
+{% extends 'bounties/base.html' %}
+
+{% block content %}
+
+<p><a href="{% url 'bounties:topic' topic.id %}">{{ topic }}</a></p>
+
+<p>Dodaj bounty:</p>
+<form action="{% url 'bounties:new_bounty' topic.id %}" method="post">
+    {% csrf_token %}
+    {{ form.as_div }}
+    <button name="submit">Post bounty</button>
+</form>
+
+
+{% endblock content %}

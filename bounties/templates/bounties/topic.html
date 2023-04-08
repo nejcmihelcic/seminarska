@@ -5,6 +5,9 @@
 <p>Topic: {{ topic.name }}</p>
 
 <p>Bounties: </p>
+<p>
+  <a href="{% url 'bounties:new_bounty' topic.id %}">Add a new bounty</a>
+</p>
 <ul>
     {% for bounty in bounties %}
       <li>

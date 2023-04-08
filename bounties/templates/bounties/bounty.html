@@ -3,7 +3,11 @@
 {% block content %}
 
 <p>{{ bounty.name }}</p>
-
 <p>{{ bounty.text|linebreaks }}</p>
+<p>
+    <a href="{% url 'bounties:edit_bounty' bounty.id %}">
+        Uredi objavo
+    </a>
+</p>
 
 {% endblock content %}
