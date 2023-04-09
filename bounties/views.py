@@ -1,5 +1,6 @@
-from django.shortcuts import render
-from .models import Subject, Topic
+from django.shortcuts import render, redirect
+from .models import Subject, Topic, Bounty
+from. forms import BountyForm
 
 # Create your views here.
 def index(request):
@@ -32,3 +33,43 @@ def bounty(request, topic_id, bounty_id):
     bounty=topic.bounty_set.get(id=bounty_id)
     context={'bounty': bounty}
     return render(request, 'bounties/bounty.html', context)
+
+def new_bounty(request, topic_id):
+    """Returns page for creating a new bounty"""
+    topic=Topic.objects.get(id=topic_id)
+    subject=topic.subject
+
+    if request.method != 'POST':
+        #No data submitted; create blank form.
+        form=BountyForm()
+    else:
+        #Post data submitted; process data.
+        form=BountyForm(data=request.POST)
+        if form.is_valid():
+            new_bounty=form.save(commit=False)
+            new_bounty.topic = topic
+            new_bounty.subject = subject
+            new_bounty.save()
+            return redirect('bounties:topic', topic_id=topic_id)
+        
+    #Display blank or invalid form
+    context = {'topic': topic, 'form': form}
+    return render(request, 'bounties/new_bounty.html', context)
+
+def edit_bounty(request, bounty_id):
+    """Edit an existing bounty"""
+    bounty=Bounty.objects.get(id=bounty_id)
+    topic=bounty.topic
+
+    if request.method != 'POST':
+        # initial reqest
+        form = BountyForm(instance=bounty)
+    else:
+        # post data submitted
+        form=BountyForm(instance=bounty, data=request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('bounties:topic', topic_id=topic.id)
+        
+    context = {'bounty': bounty, 'topic': topic, 'form': form}
+    return render(request, 'bounties/edit_bounty.html', context)
