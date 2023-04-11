@@ -1,6 +1,9 @@
 from django.shortcuts import render, redirect
 from .models import Subject, Topic, Bounty
 from. forms import BountyForm
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.http import Http404
 
 # Create your views here.
 def index(request):
@@ -34,6 +37,7 @@ def bounty(request, topic_id, bounty_id):
     context={'bounty': bounty}
     return render(request, 'bounties/bounty.html', context)
 
+@login_required
 def new_bounty(request, topic_id):
     """Returns page for creating a new bounty"""
     topic=Topic.objects.get(id=topic_id)
@@ -49,6 +53,7 @@ def new_bounty(request, topic_id):
             new_bounty=form.save(commit=False)
             new_bounty.topic = topic
             new_bounty.subject = subject
+            new_bounty.owner = request.user
             new_bounty.save()
             return redirect('bounties:topic', topic_id=topic_id)
         
@@ -56,9 +61,12 @@ def new_bounty(request, topic_id):
     context = {'topic': topic, 'form': form}
     return render(request, 'bounties/new_bounty.html', context)
 
+@login_required
 def edit_bounty(request, bounty_id):
     """Edit an existing bounty"""
     bounty=Bounty.objects.get(id=bounty_id)
+    if bounty.owner != request.user:
+        raise Http404
     topic=bounty.topic
 
     if request.method != 'POST':
