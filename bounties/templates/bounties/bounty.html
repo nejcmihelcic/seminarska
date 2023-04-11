@@ -5,9 +5,11 @@
 <p>{{ bounty.name }}</p>
 <p>{{ bounty.text|linebreaks }}</p>
 <p>
-    <a href="{% url 'bounties:edit_bounty' bounty.id %}">
-        Uredi objavo
-    </a>
+    {% if bounty.owner == request.user %}
+        <a href="{% url 'bounties:edit_bounty' bounty.id %}">
+            Uredi objavo
+        </a>
+    {% endif %}
 </p>
 
 {% endblock content %}
