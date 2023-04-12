@@ -1,8 +1,7 @@
 from django.shortcuts import render, redirect
-from .models import Subject, Topic, Bounty
-from. forms import BountyForm
+from .models import Subject, Topic, Bounty, Comment
+from. forms import BountyForm, CommentForm
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
 from django.http import Http404
 
 # Create your views here.
@@ -35,7 +34,7 @@ def bounty(request, topic_id, bounty_id):
     topic=Topic.objects.get(id=topic_id)
     bounty=topic.bounty_set.get(id=bounty_id)
     comments=bounty.comment_set.all()
-    context={'bounty': bounty, 'comments': comments}
+    context={'bounty': bounty, 'comments': comments, 'topic_id': topic_id}
     return render(request, 'bounties/bounty.html', context)
 
 @login_required
@@ -82,3 +81,24 @@ def edit_bounty(request, bounty_id):
         
     context = {'bounty': bounty, 'topic': topic, 'form': form}
     return render(request, 'bounties/edit_bounty.html', context)
+
+def new_comment(request, topic_id, bounty_id):
+    """Returns comment creation page"""
+    bounty=Bounty.objects.get(id=bounty_id)
+
+    if request.method != 'POST':
+        #no post data, make empty form
+        form=CommentForm()
+    else:
+        form=CommentForm(data=request.POST)
+        if form.is_valid():
+            new_comment=form.save(commit=False)
+            new_comment.owner = request.user
+            new_comment.bounty=bounty
+            new_comment.save()
+            return redirect('bounties:bounty', topic_id=topic_id, bounty_id=bounty_id)
+    
+    context={'form': form, 'bounty': bounty, 'topic_id': topic_id}
+    
+    #Display blank / invalid form
+    return render(request, 'bounties/new_comment.html', context)

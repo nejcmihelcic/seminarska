@@ -13,6 +13,8 @@
 </p>
 <br/>
 <br/>
+<hr/>
+<a href="{% url 'bounties:new_comment' topic_id bounty.id %}">Dodaj komentar</a>
 <ul>
     {% for comment in comments %}
       <li>{{ comment.text|linebreaks }}</li>

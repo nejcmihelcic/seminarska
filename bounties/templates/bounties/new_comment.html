@@ -1,0 +1,15 @@
+{% extends 'bounties/base.html' %}
+
+{% block content %}
+
+<p><a href="{% url 'bounties:bounty' topic_id bounty.id %}">{{ bounty.name }}</a></p>
+
+<p>Dodaj komentar:</p>
+<form action="{% url 'bounties:new_comment' topic_id bounty.id %}" method="post">
+    {% csrf_token %}
+    {{ form.as_div }}
+    <button name="submit">Objavi komentar</button>
+</form>
+
+
+{% endblock content %}

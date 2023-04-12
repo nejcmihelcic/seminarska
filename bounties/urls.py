@@ -26,4 +26,7 @@ urlpatterns = [
 
     #edits an existing bounty
     path('edit_bounty/<int:bounty_id>/', views.edit_bounty, name='edit_bounty'),
+
+    #adds a new comment
+    path('add_comment/<int:topic_id>/<int:bounty_id>/', views.new_comment, name='new_comment'),
 ]
