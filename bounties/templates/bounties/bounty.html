@@ -18,6 +18,9 @@
 <ul>
     {% for comment in comments %}
       <li>{{ comment.text|linebreaks }}</li>
+      {% if comment.owner == request.user %}
+        <a href="{% url 'bounties:edit_comment' bounty.id comment.id %}">Uredi komentar</a>
+      {% endif %}
       <hr>
     {% empty %}
       <li>Nihce se ni komentiral</li>

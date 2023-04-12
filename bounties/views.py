@@ -82,6 +82,7 @@ def edit_bounty(request, bounty_id):
     context = {'bounty': bounty, 'topic': topic, 'form': form}
     return render(request, 'bounties/edit_bounty.html', context)
 
+@login_required
 def new_comment(request, topic_id, bounty_id):
     """Returns comment creation page"""
     bounty=Bounty.objects.get(id=bounty_id)
@@ -102,3 +103,23 @@ def new_comment(request, topic_id, bounty_id):
     
     #Display blank / invalid form
     return render(request, 'bounties/new_comment.html', context)
+
+@login_required
+def edit_comment(request, bounty_id, comment_id):
+    """edit an existing comment"""
+    comment=Comment.objects.get(id=comment_id)
+    bounty=Bounty.objects.get(id=bounty_id)
+    if comment.owner != request.user:
+        raise Http404
+    
+    if request.method != 'POST':
+        form = CommentForm(instance=comment)
+    else:
+        form=CommentForm(instance=comment, data=request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('bounties:bounty', topic_id=bounty.topic.id, bounty_id=bounty.id)
+        
+    context = {'comment': comment, 'bounty': bounty, 'form': form}
+    return render(request, 'bounties/edit_comment.html', context)
+    
