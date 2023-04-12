@@ -34,7 +34,8 @@ def bounty(request, topic_id, bounty_id):
     """Return page for specific bounty"""
     topic=Topic.objects.get(id=topic_id)
     bounty=topic.bounty_set.get(id=bounty_id)
-    context={'bounty': bounty}
+    comments=bounty.comment_set.all()
+    context={'bounty': bounty, 'comments': comments}
     return render(request, 'bounties/bounty.html', context)
 
 @login_required

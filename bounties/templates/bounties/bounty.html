@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<p>{{ bounty.name }}</p>
+<h2>{{ bounty.name }}</h2>
 <p>{{ bounty.text|linebreaks }}</p>
 <p>
     {% if bounty.owner == request.user %}
@@ -11,5 +11,15 @@
         </a>
     {% endif %}
 </p>
+<br/>
+<br/>
+<ul>
+    {% for comment in comments %}
+      <li>{{ comment.text|linebreaks }}</li>
+      <hr>
+    {% empty %}
+      <li>Nihce se ni komentiral</li>
+    {% endfor %}
+</ul>
 
 {% endblock content %}

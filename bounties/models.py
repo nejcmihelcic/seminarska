@@ -36,3 +36,13 @@ class Bounty(models.Model):
 
     def __str__(self):
         return self.name
+
+class Comment(models.Model):
+    """The comment section on a bounty"""
+    owner=models.ForeignKey(User, on_delete=models.CASCADE)
+    bounty=models.ForeignKey(Bounty, on_delete=models.CASCADE)
+    date_added=models.DateTimeField(auto_now_add=True)
+    text=models.TextField(default="Nedokoncana objava")
+
+    def __str__(self):
+        return self.text
