@@ -1,14 +1,18 @@
 {% extends 'bounties/base.html'  %}
 
+{% block page_header %}
+<h1>Predmeti:</h1>
+{% endblock page_header %}
 {% block content %}
 
-<p>Predmeti:</p>
 
-<ul>
+<ul class="list-group border-bottom pb-2 mb-4">
     {% for subject in subjects %}
-      <li><a href="{% url 'bounties:subject' subject.id %}">{{ subject.name }}</a></li>
+      <li class="list-group-item border-0">
+        <a href="{% url 'bounties:subject' subject.id %}">{{ subject.name }}</a>
+      </li>
     {% empty %}
-      <li>Trenutno še ni nobenega predmeta</li>
+      <li class="list-group-item border-0">Trenutno še ni nobenega predmeta</li>
     {% endfor %}
 </ul>
 

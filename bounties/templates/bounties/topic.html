@@ -1,22 +1,26 @@
 {% extends 'bounties/base.html' %}
 
-{% block content %}
+{% block page_header %}
+<h1>Tema: {{ topic.name }}</h1>
+{% endblock page_header %}
 
-<p>Tema: {{ topic.name }}</p>
+{% block content %}
 
 <p>Vprašanja: </p>
 <p>
   <a href="{% url 'bounties:new_bounty' topic.id %}">Dodaj novo vprašanje</a>
 </p>
-<ul>
-    {% for bounty in bounties %}
-      <li>
-        <p>{{ bounty.date_added|date:'M d, Y H:i' }}</p>
-        <p><a href="{% url 'bounties:bounty' topic.id bounty.id %}">{{ bounty.name }}</a></p>
-      </li>
-    {% empty %}
-      <li>Nihče še ni zastavil vprašanja za to temo.</li>
-    {% endfor %}
-</ul>
+  {% for bounty in bounties %}
+    <div class="card mb-3">
+      <h4 class="card-header">
+        {{ bounty.date_added|date:'M d, Y H:i' }}</p>
+        <a href="{% url 'bounties:bounty' topic.id bounty.id %}">{{ bounty.name }}</a>
+      </h4>
+      <div class="card-body">{{ bounty.text }}</div>
+    </div>
+  {% empty %}
+    <p>Nihče še ni zastavil vprašanja za to temo.</p>
+  {% endfor %}
+
 
 {% endblock content %}
