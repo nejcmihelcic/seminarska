@@ -4,7 +4,7 @@
 
 <p><a href="{% url 'bounties:topic' topic.id %}">{{ topic }}</a></p>
 
-<p>Dodaj bounty:</p>
+<p>Zastavi novo vprašanje:</p>
 <form action="{% url 'bounties:new_bounty' topic.id %}" method="post">
     {% csrf_token %}
     {{ form.as_div }}

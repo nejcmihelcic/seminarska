@@ -1,9 +1,19 @@
 {% extends 'bounties/base.html' %}
-{% block content %}
-    <p>Encoded</p>
+{% block page_header %}
+   <div class="p-3 mb-4 bg-light border rounded-3">
+    <div class="container-fluid py-4">
+       <h1 class="display-3">Odpravi vprašanja pri učenju</h1>
 
-    <p>Encoded omogoci da zastavis vprasanje o katerikoli temi in hitro dobis odgovor.<br>
-    Prav tako lahko pomagas drugim uporabnik ter sam odgovarjas na vprasanja. Cilj je
-    da imamo spletno stran, ki ima odgovor na skoraj vsa vprasanja pri vseh predmetih!
-    </p>
-{% endblock content %}
+       <p class="lead">
+        Zastavi vprašanja za katerokoli temo, ki te zanima in nekdo
+        ti bo odgovoril. Prav tako lahko poiščeš odgovore na vprašanja,
+        ki jih je nekdo že zastavil ali celo odgovoriš na vprašanja,
+        ki še nimajo odgovora. Cilj je imeti stran, ki bo imela odgovore
+        na večino vprašanj, ki jih imajo učenci.
+       </p>
+
+       <a class="btn btn-primary btn-lg mt-1"
+        href="{% url 'accounts:register' %}">Prijavi se &raquo;</a>
+    </div>
+  </div>
+{% endblock page_header %}

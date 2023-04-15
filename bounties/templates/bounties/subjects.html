@@ -2,13 +2,13 @@
 
 {% block content %}
 
-<p>Subjects:</p>
+<p>Predmeti:</p>
 
 <ul>
     {% for subject in subjects %}
       <li><a href="{% url 'bounties:subject' subject.id %}">{{ subject.name }}</a></li>
     {% empty %}
-      <li>No subjects have been added yet.</li>
+      <li>Trenutno še ni nobenega predmeta</li>
     {% endfor %}
 </ul>
 

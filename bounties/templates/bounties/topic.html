@@ -2,11 +2,11 @@
 
 {% block content %}
 
-<p>Topic: {{ topic.name }}</p>
+<p>Tema: {{ topic.name }}</p>
 
-<p>Bounties: </p>
+<p>Vprašanja: </p>
 <p>
-  <a href="{% url 'bounties:new_bounty' topic.id %}">Add a new bounty</a>
+  <a href="{% url 'bounties:new_bounty' topic.id %}">Dodaj novo vprašanje</a>
 </p>
 <ul>
     {% for bounty in bounties %}
@@ -15,7 +15,7 @@
         <p><a href="{% url 'bounties:bounty' topic.id bounty.id %}">{{ bounty.name }}</a></p>
       </li>
     {% empty %}
-      <li>No bounties active</li>
+      <li>Nihče še ni zastavil vprašanja za to temo.</li>
     {% endfor %}
 </ul>
 
